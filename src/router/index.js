@@ -15,8 +15,8 @@ const router = createRouter({
           component: Home,
         },
         {
-          path:"category",
-          component:Category
+          path: "category/:id",
+          component: Category,
         },
       ],
     },
