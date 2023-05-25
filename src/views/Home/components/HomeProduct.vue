@@ -9,9 +9,7 @@ const getGoods = async () => {
   console.log("!!!", res);
   goodsProduct.value = res.result;
 };
-onMounted(() => {
-  getGoods();
-});
+onMounted(() => getGoods());
 </script>
 
 <template>

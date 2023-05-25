@@ -7,9 +7,7 @@ const getNewList = async () => {
   const res = await findNewAPI();
   newList.value = res.result;
 };
-onMounted(() => {
-  getNewList();
-});
+onMounted(() => getNewList());
 </script>
 
 <template>
