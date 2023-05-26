@@ -1,17 +1,27 @@
 <script setup>
-
-
+import { getCategoryFilterAPI } from "@/apis/category";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
+// 获取面包屑导航数据
+const filterData = ref({});
+const getFilterData = async () => {
+  const res = await getCategoryFilterAPI(route.params.id);
+  filterData.value = res.result;
+};
+onMounted(() => getFilterData());
 </script>
 
 <template>
-  <div class="container ">
+  <div class="container">
     <!-- 面包屑 -->
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/' }">居家
+        <el-breadcrumb-item :to="{ path: `/category/${filterData.parentId}` }"
+          >{{ filterData.parentName }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item>居家生活用品</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ filterData.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="sub-container">
@@ -21,14 +31,11 @@
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
       <div class="body">
-         <!-- 商品列表-->
+        <!-- 商品列表-->
       </div>
     </div>
   </div>
-
 </template>
-
-
 
 <style lang="scss" scoped>
 .bread-container {
@@ -82,7 +89,5 @@
     display: flex;
     justify-content: center;
   }
-
-
 }
 </style>
