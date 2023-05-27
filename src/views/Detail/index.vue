@@ -1,5 +1,7 @@
 <script setup>
+import DetailHot from "@/views/Detail/components/DetailHot.vue";
 import { getDetail } from "@/apis/detail";
+
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
@@ -9,6 +11,8 @@ const getGoods = async () => {
   goods.value = res.result;
 };
 onMounted(() => getGoods());
+
+
 </script>
 
 <template>
@@ -25,7 +29,7 @@ onMounted(() => getGoods());
             :to="{ path: `/category/${goods.categories[0].id}` }"
             >{{ goods.categories[0].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
+          <!-- <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item> -->
         </el-breadcrumb>
       </div>
       <!-- 商品信息 -->
@@ -54,18 +58,18 @@ onMounted(() => getGoods());
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>{{goods.brand.name}}</p>
+                  <p>{{ goods.brand.name }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
-              <p class="g-name">{{goods.name}}</p>
-              <p class="g-desc">{{goods.desc}}</p>
+              <p class="g-name">{{ goods.name }}</p>
+              <p class="g-desc">{{ goods.desc }}</p>
               <p class="g-price">
-                <span>{{goods.oldPrice}}</span>
-                <span> {{goods.price}}</span>
+                <span>{{ goods.oldPrice }}</span>
+                <span> {{ goods.price }}</span>
               </p>
               <div class="g-service">
                 <dl>
@@ -102,18 +106,29 @@ onMounted(() => getGoods());
                 <div class="goods-detail">
                   <!-- 属性 -->
                   <ul class="attrs">
-                    <li v-for="item in goods.details.properties" :key="item.value">
-                      <span class="dt">{{item.name}}</span>
-                      <span class="dd">{{item.value}}</span>
+                    <li
+                      v-for="item in goods.details.properties"
+                      :key="item.value"
+                    >
+                      <span class="dt">{{ item.name }}</span>
+                      <span class="dd">{{ item.value }}</span>
                     </li>
                   </ul>
                   <!-- 图片 -->
-                  <img v-for="img in goods.details.pictures" :key="img" :src="img" alt="">
+                  <img
+                    v-for="img in goods.details.pictures"
+                    :key="img"
+                    :src="img"
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
-            <div class="goods-aside"></div>
+            <div class="goods-aside">
+              <DetailHot />
+              <DetailHot />
+            </div>
           </div>
         </div>
       </div>
