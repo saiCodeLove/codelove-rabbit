@@ -3,6 +3,7 @@ import axios from "axios";
 import "element-plus/theme-chalk/el-message.css";
 import { ElMessage } from "element-plus";
 import { useUserStore } from "@/stores/user";
+import router from '@/router/index'
 const httpInstance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
   timeout: 5000,
@@ -30,7 +31,16 @@ httpInstance.interceptors.response.use(
       type: "warning",
       message: e.response.data.message,
     });
-    return Promise.reject(e);
+    // 401token失效处理
+    if (e.response.status === 401){
+      // 1.清除用户信息
+      const userStore = useUserStore();
+      userStore.clearUserInfo()
+      // 2.跳转到登录页
+      router.push('/login')
+    }
+      
+      return Promise.reject(e);
   }
 );
 export default httpInstance;
