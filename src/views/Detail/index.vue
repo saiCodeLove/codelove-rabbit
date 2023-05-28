@@ -1,7 +1,6 @@
 <script setup>
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
 import { getDetail } from "@/apis/detail";
-
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
