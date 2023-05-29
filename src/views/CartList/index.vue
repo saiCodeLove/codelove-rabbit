@@ -8,6 +8,10 @@ const singleCheck = (i, selected) => {
   // 除了selected补充一个用来筛选的参数 - skuId
   cartStore.singleCheck(i.skuId, selected);
 };
+// 全选回调
+const allCheck = (selected) => {
+  cartStore.allCheck(selected);
+};
 </script>
 
 <template>
@@ -18,7 +22,10 @@ const singleCheck = (i, selected) => {
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox />
+                <el-checkbox
+                  :model-value="cartStore.isAll"
+                  @change="allCheck"
+                />
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -31,7 +38,6 @@ const singleCheck = (i, selected) => {
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                
                 <!-- 单选框 -->
                 <el-checkbox
                   :model-value="i.selected"
