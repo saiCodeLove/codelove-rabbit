@@ -95,11 +95,17 @@ const allCheck = (selected) => {
       <!-- 操作栏 -->
       <div class="action">
         <div class="batch">
-          共 {{cartStore.allCount}} 件商品，已选择 {{cartStore.selectedCount}} 件，商品合计：
-          <span class="red">¥ {{cartStore.selectedPrice.toFixed(2)}} </span>
+          共 {{ cartStore.allCount }} 件商品，已选择
+          {{ cartStore.selectedCount }} 件，商品合计：
+          <span class="red">¥ {{ cartStore.selectedPrice.toFixed(2) }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary">下单结算</el-button>
+          <el-button
+            size="large"
+            type="primary"
+            @click="$router.push('/checkout')"
+            >下单结算</el-button
+          >
         </div>
       </div>
     </div>
