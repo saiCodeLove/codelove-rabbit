@@ -31,12 +31,22 @@ export const useCartStore = defineStore(
       const idx = cartList.value.findIndex((item) => skuId === item.skuId);
       cartList.value.splice(idx, 1);
     };
+    // 单选功能
+    const singleCheck = (skuId, selected) => {
+      // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
+      const item = cartList.value.find((item) => item.skuId === skuId);
+      item.selected = selected;
+    };
     // 计算属性
     // 总的数量 所有count之和
-    const allCount = computed(() => cartList.value.reduce((a,b)=>a + b.count,0));
+    const allCount = computed(() =>
+      cartList.value.reduce((a, b) => a + b.count, 0)
+    );
     // 总的价格 所有的count*price之和
-    const allPrice = computed(() => cartList.value.reduce((a, b) => a + b.count*b.price, 0));
-    return { cartList, addCart, delCart, allCount, allPrice };
+    const allPrice = computed(() =>
+      cartList.value.reduce((a, b) => a + b.count * b.price, 0)
+    );
+    return { cartList, addCart, delCart, allCount, allPrice, singleCheck };
   },
   {
     persist: true,
