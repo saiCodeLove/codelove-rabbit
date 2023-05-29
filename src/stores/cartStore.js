@@ -1,26 +1,42 @@
 // 封装购物车模块
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-
+import { useUserStore } from "./user";
+import { insertCartAPI, findNewCartListAPI } from "@/apis/cart";
 export const useCartStore = defineStore(
   "cart",
   () => {
+    const userStore = useUserStore();
+    const isLogin = computed(() => userStore.userInfo.token);
     //   state -cartList
     const cartList = ref([]);
     // actions  -addCart
-    const addCart = (goods) => {
-      // 添加购物车操作
-      console.log("@@@", goods);
-      // 已经添加过 -  count + 1
-      // 没有添加过 -  直接push
-      // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到 找到了就是添加过
-      const item = cartList.value.find((item) => goods.skuId === item.skuId);
-      if (item) {
-        // 找到了
-        item.count++;
+    const addCart = async (goods) => {
+      if (isLogin.value) {
+        const { skuId, count } = goods;
+        // 登录状态加入购物车的逻辑
+        await insertCartAPI({
+          skuId,
+          count,
+        });
+        // 获取购物车列表 用接口购物车列表覆盖本地购物车列表
+        const res = await findNewCartListAPI()
+        cartList.value = res.result
       } else {
-        // 没找到
-        cartList.value.push(goods);
+        // 非登录状态
+        // 添加购物车操作
+        console.log("@@@", goods);
+        // 已经添加过 -  count + 1
+        // 没有添加过 -  直接push
+        // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到 找到了就是添加过
+        const item = cartList.value.find((item) => goods.skuId === item.skuId);
+        if (item) {
+          // 找到了
+          item.count++;
+        } else {
+          // 没找到
+          cartList.value.push(goods);
+        }
       }
     };
     // 删除购物车
