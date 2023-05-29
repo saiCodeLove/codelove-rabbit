@@ -15,7 +15,6 @@ export const useCartStore = defineStore(
       const res = await findNewCartListAPI();
       cartList.value = res.result;
     };
-
     // actions  -addCart
     // 添加购物车
     const addCart = async (goods) => {
@@ -69,6 +68,10 @@ export const useCartStore = defineStore(
       // 把cartList中的每一项selected都设置为当前的全选框状态
       cartList.value.forEach((item) => (item.selected = selected));
     };
+    // 退出清除购物车
+    const clearCart = ()=>{
+      cartList.value = []
+    }
     // 计算属性
     // 总的数量 所有count之和
     const allCount = computed(() =>
@@ -103,6 +106,7 @@ export const useCartStore = defineStore(
       singleCheck,
       isAll,
       allCheck,
+      clearCart,
     };
   },
   {
