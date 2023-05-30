@@ -18,16 +18,21 @@ const params = ref({
   page: 1,
   pageSize: 2,
 });
-const getOrder = async () => {
+const getOrderList = async () => {
   const res = await getUserOrder(params.value);
   orderList.value = res.result.items;
 };
-onMounted(() => getOrder());
+onMounted(() => getOrderList());
+// tab切换
+const tabChange = (type)=>{
+params.value.orderState = type
+getOrderList()
+}
 </script>
 
 <template>
   <div class="order-container">
-    <el-tabs>
+    <el-tabs @tab-change="tabChange">
       <!-- tab切换 -->
       <el-tab-pane
         v-for="item in tabTypes"
